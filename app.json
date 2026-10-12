@@ -1,0 +1,12 @@
+{
+  "expo": {
+    "name": "ISE101 Module 7",
+    "slug": "ise101-module7",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}

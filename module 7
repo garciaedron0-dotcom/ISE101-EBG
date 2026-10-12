@@ -1,0 +1,53 @@
+
+import React from "react";
+import { Text, View, StyleSheet } from "react-native";
+
+export default function App() {
+  return (
+    <View style={stylesjrd.containerjrd}>
+      <Text style={stylesjrd.titlejrd}>
+        Hello, I'm edron!
+      </Text>
+
+      <Text style={stylesjrd.subtitlejrd}>
+        Welcome to React Native!
+      </Text>
+
+      <Text style={stylesjrd.sectionjrd}>
+        BSIS 3A
+      </Text>
+    </View>
+  );
+}
+
+const stylesjrd = StyleSheet.create({
+  containerjrd: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#124267",
+    padding: 24,
+  },
+
+  titlejrd: {
+    fontSize: 30,
+    fontWeight: "bold",
+    color: "#164E8C",
+    marginBottom: 12,
+    textAlign: "center",
+  },
+
+  subtitlejrd: {
+    fontSize: 18,
+    color: "#555555",
+    marginBottom: 16,
+    textAlign: "center",
+  },
+
+  sectionjrd: {
+    fontSize: 16,
+    color: "#087F5B",
+    fontWeight: "600",
+    marginTop: 8,
+  },
+});
