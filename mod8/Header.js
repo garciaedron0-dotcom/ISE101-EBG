@@ -1,0 +1,23 @@
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
+
+export default function Header() {
+  return (
+    <View style={styles.header}>
+      <Text style={styles.title}>Student Task & Blog App</Text>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  header: {
+    padding: 20,
+    backgroundColor: "#673AB7",
+    alignItems: "center",
+  },
+  title: {
+    color: "#FFFFFF",
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+});

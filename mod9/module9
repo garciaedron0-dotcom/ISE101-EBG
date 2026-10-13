@@ -1,0 +1,91 @@
+
+import React from "react";
+import { View, Text, Button } from "react-native";
+
+export default function TaskItemjtiongco({ taskjtiongco, deletejtiongco }) {
+  return (
+    <View style={{
+      backgroundColor: "lightgreen",
+      padding: 15,
+      margin: 5,
+      flexDirection: "row",
+      justifyContent: "space-between"
+    }}>
+      <Text>{taskjtiongco.toUpperCase()}</Text>
+      <Button title="Delete" onPress={deletejtiongco} />
+    </View>
+  );
+}
+
+
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  FlatList
+} from "react-native";
+
+import TaskItemjtiongco from "../components/TaskItem";
+
+export default function TaskScreenjtiongco() {
+  const [taskjtiongco, setTaskjtiongco] = useState("");
+  const [tasksjtiongco, setTasksjtiongco] = useState([
+    "Read React docs",
+    "Finish homework",
+    "Buy groceries"
+  ]);
+
+  const addTaskjtiongco = () => {
+    if (taskjtiongco.trim() !== "") {
+      setTasksjtiongco([...tasksjtiongco, taskjtiongco]);
+      setTaskjtiongco("");
+    }
+  };
+
+  const deleteTaskjtiongco = (indexjtiongco) => {
+    setTasksjtiongco(
+      tasksjtiongco.filter((_, i) => i !== indexjtiongco)
+    );
+  };
+
+  return (
+    <View style={{ flex: 1, padding: 20, marginTop: 40 }}>
+      <Text style={{ fontSize: 25, fontWeight: "bold" }}>
+        Task Manager
+      </Text>
+
+      <TextInput
+        placeholder="Enter a task"
+        value={taskjtiongco}
+        onChangeText={setTaskjtiongco}
+        style={{
+          borderWidth: 1,
+          padding: 15,
+          marginVertical: 10
+        }}
+      />
+
+      <Button title="Add Task" onPress={addTaskjtiongco} />
+
+      <FlatList
+        data={tasksjtiongco}
+        keyExtractor={(_, i) => i.toString()}
+        renderItem={({ item, index }) => (
+          <TaskItemjtiongco
+            taskjtiongco={item}
+            deletejtiongco={() => deleteTaskjtiongco(index)}
+          />
+        )}
+      />
+    </View>
+  );
+}
+
+import React from "react";
+import TaskScreenjtiongco from "./screens/TaskScreen";
+
+export default function Appjtiongco() {
+  return <TaskScreenjtiongco />;
+}

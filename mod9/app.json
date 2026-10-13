@@ -1,0 +1,12 @@
+{
+  "expo": {
+    "name": "module9",
+    "slug": "module9",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
