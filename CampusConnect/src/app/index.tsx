@@ -1,4 +1,9 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import {
+  Image,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 
 import {
   announcements,
@@ -6,7 +11,9 @@ import {
   getTotalAnnouncements,
   getUnreadAnnouncements,
 } from '../../services/announcementUtils';
+import { ActionButton } from '../components/ActionButton';
 import { AnnouncementPanel } from '../components/AnnouncementPanel';
+import { SectionHeading } from '../components/SectionHeading';
 
 export default function HomeScreen() {
   const totalAnnouncements = getTotalAnnouncements(announcements);
@@ -14,112 +21,131 @@ export default function HomeScreen() {
   const unreadCount = countUnread(announcements);
 
   return (
-    <ScrollView
-      style={styles.screen}
-      contentContainerStyle={styles.scrollContent}
-    >
-      <View style={styles.header}>
-        <Text style={styles.title}>Campus Connect</Text>
-        <Text style={styles.subtitle}>One campus. Connected students.</Text>
-      </View>
+    <AnnouncementPanel
+      renderPageHeader={(onViewAll) => (
+        <View style={styles.pageHeader}>
+          <View style={styles.section}>
+            <SectionHeading
+              title="Campus Connect"
+              subtitle="One campus. Connected students."
+              align="center"
+              level="hero"
+            />
+          </View>
 
-      <View style={styles.content}>
-        <Text style={styles.description}>
-          Welcome to the Week 1 project foundation.
-        </Text>
-
-        <View style={styles.card}>
-          <Text style={styles.cardTitle}>Announcement Utility Test</Text>
-          <View style={styles.divider} />
-          <Text style={styles.stat}>
-            Total Announcements: {totalAnnouncements}
-          </Text>
-          <Text style={styles.stat}>Unread Announcements: {unreadCount}</Text>
-          {unreadAnnouncements.map(({ id, title }) => (
-            <Text key={id} style={styles.unreadTitle}>
-              • {title}
+          <View style={styles.banner}>
+            <Text accessibilityRole="header" style={styles.bannerTitle}>
+              Campus Announcements
             </Text>
-          ))}
-        </View>
+            <Text style={styles.bannerSubtitle}>
+              Stay updated with the latest campus news.
+            </Text>
+            <ActionButton
+              label="View All Announcements"
+              onPress={onViewAll}
+            />
 
-        <AnnouncementPanel />
-      </View>
-    </ScrollView>
+            <Image
+              source={require('../../assets/images/santaritacollege.webp')}
+              accessibilityLabel="Santa Rita College of Pampanga school seal"
+              resizeMode="contain"
+              style={styles.campusImage}
+            />
+          </View>
+
+          <View style={styles.utilityCard}>
+            <Text accessibilityRole="header" style={styles.utilityTitle}>
+              Announcement Utility Test
+            </Text>
+            <View style={styles.divider} />
+            <Text style={styles.utilityStat}>
+              Total Announcements: {totalAnnouncements}
+            </Text>
+            <Text style={styles.utilityStat}>
+              Unread Announcements: {unreadCount}
+            </Text>
+            {unreadAnnouncements.map(({ id, title }) => (
+              <Text key={id} style={styles.utilityUnread}>
+                • {title}
+              </Text>
+            ))}
+          </View>
+        </View>
+      )}
+    />
   );
 }
 
 const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    backgroundColor: '#F3F6FA',
-  },
-  scrollContent: {
-    alignItems: 'center',
-    paddingBottom: 36,
-  },
-  header: {
+  pageHeader: {
     width: '100%',
     alignItems: 'center',
-    backgroundColor: '#17324D',
-    paddingHorizontal: 20,
-    paddingTop: 54,
-    paddingBottom: 30,
+    paddingTop: 24,
   },
-  title: {
-    color: '#FFFFFF',
-    fontSize: 30,
-    fontWeight: '700',
-    textAlign: 'center',
-  },
-  subtitle: {
-    color: '#D5E4F2',
-    fontSize: 16,
-    marginTop: 8,
-    textAlign: 'center',
-  },
-  content: {
+  section: {
     width: '100%',
-    maxWidth: 720,
-    paddingHorizontal: 20,
+    paddingHorizontal: 8,
   },
-  description: {
-    color: '#59697A',
-    fontSize: 15,
-    lineHeight: 23,
-    marginTop: 24,
-    marginBottom: 16,
-    textAlign: 'center',
-  },
-  card: {
+  banner: {
+    width: '100%',
     backgroundColor: '#FFFFFF',
+    borderColor: '#DCE3EC',
     borderRadius: 16,
-    padding: 22,
-    shadowColor: '#17324D',
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.08,
-    shadowRadius: 12,
-    elevation: 3,
+    borderWidth: 1,
+    marginTop: 20,
+    padding: 20,
+    gap: 12,
   },
-  cardTitle: {
-    color: '#17324D',
+  bannerTitle: {
+    color: '#111827',
+    fontSize: 22,
+    fontWeight: '700',
+    lineHeight: 29,
+  },
+  bannerSubtitle: {
+    color: '#526070',
+    fontSize: 15,
+    lineHeight: 22,
+    marginBottom: 4,
+  },
+  campusImage: {
+    width: '100%',
+    height: 180,
+    alignSelf: 'center',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
+    marginTop: 4,
+  },
+  utilityCard: {
+    width: '100%',
+    backgroundColor: '#FFFFFF',
+    borderColor: '#DCE3EC',
+    borderRadius: 16,
+    borderWidth: 1,
+    marginTop: 20,
+    padding: 20,
+  },
+  utilityTitle: {
+    color: '#111827',
     fontSize: 19,
     fontWeight: '700',
+    lineHeight: 26,
   },
   divider: {
     height: 1,
     backgroundColor: '#E8EDF2',
-    marginVertical: 15,
+    marginVertical: 14,
   },
-  stat: {
-    color: '#34475A',
+  utilityStat: {
+    color: '#526070',
     fontSize: 15,
     fontWeight: '600',
     lineHeight: 24,
   },
-  unreadTitle: {
-    color: '#1769AA',
+  utilityUnread: {
+    color: '#2563EB',
     fontSize: 15,
     lineHeight: 23,
-    marginTop: 10,
+    marginTop: 8,
   },
 });

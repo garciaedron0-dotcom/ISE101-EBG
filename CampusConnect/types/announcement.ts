@@ -15,6 +15,8 @@ export interface InteractiveAnnouncement {
   title: string;
   category: string;
   read: boolean;
+  date?: string;
+  description?: string;
 }
 
 export interface StudentProfile {

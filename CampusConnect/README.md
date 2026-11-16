@@ -54,3 +54,27 @@ Join our community of developers creating universal apps.
 
 - [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
 - [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+
+## Campus Connect navigation
+
+The app uses Expo Router tabs for Home, Announcements, Profile, and the existing
+Explore screen. Announcements has a nested Stack so announcement details can be
+opened and backed out of without replacing the tab navigation.
+
+Announcement details use the dynamic route `src/app/announcements/[id].tsx`.
+For example, `/announcements/a1` resolves to the first announcement. The route
+validates the ID and displays an "Announcement Not Found" message if it does not
+match the shared announcement data.
+
+The project currently demonstrates route-based deep linking through Expo
+Router. Production universal links are not configured.
+
+Drawer navigation is a side-menu pattern that exposes destinations from a
+slide-out panel. This project intentionally keeps its existing tab navigation
+and does not install or configure a Drawer navigator.
+
+Run the existing project from its root directory with:
+
+```bash
+npx expo start
+```: Chat with Expo users and ask questions.

@@ -1,4 +1,7 @@
-import type { Announcement, AnnouncementCategory } from '../types/announcement';
+import type {
+  Announcement,
+  InteractiveAnnouncement,
+} from '../types/announcement';
 
 export const announcements: Announcement[] = [
   {
@@ -21,6 +24,49 @@ export const announcements: Announcement[] = [
   },
 ];
 
+export const interactiveAnnouncements: InteractiveAnnouncement[] = [
+  {
+    id: 'ANN-001',
+    title: 'Enrollment Reminder',
+    category: 'Academic',
+    read: false,
+    date: 'November 15, 2026',
+    description: 'Enrollment for the new semester is now open.',
+  },
+  {
+    id: 'ANN-002',
+    title: 'Sports Festival Announcement',
+    category: 'Events',
+    read: false,
+  },
+  {
+    id: 'ANN-003',
+    title: 'Campus Clean-up Drive',
+    category: 'Community',
+    read: true,
+    date: 'November 14, 2026',
+    description: 'Join our campus clean-up activity this Friday.',
+  },
+];
+
+export const findInteractiveAnnouncement = (
+  routeId: string,
+): InteractiveAnnouncement | undefined => {
+  const aliasMatch = /^a([1-9]\d*)$/.exec(routeId);
+  const announcementId = aliasMatch
+    ? `ANN-${aliasMatch[1].padStart(3, '0')}`
+    : routeId;
+
+  return interactiveAnnouncements.find(
+    (announcement) => announcement.id === announcementId,
+  );
+};
+
+export const getAnnouncementRouteId = (id: string): string => {
+  const match = /^ANN-(\d+)$/.exec(id);
+  return match ? `a${Number(match[1])}` : id;
+};
+
 export const getAnnouncements = (): Announcement[] => [...announcements];
 
 export const getUnreadAnnouncements = (): Announcement[] =>
@@ -40,9 +86,8 @@ export const getTotalAnnouncements = (
 export const findAnnouncement = (id: number): Announcement | undefined =>
   announcements.find((item) => item.id === id);
 
-export const filterAnnouncements = (
-  category: AnnouncementCategory,
-): Announcement[] => announcements.filter((item) => item.category === category);
+export const filterAnnouncements = (category: Announcement['category']) =>
+  announcements.filter((item) => item.category === category);
 
 export const formatGreeting = (name: string): string => `Hello, ${name}!`;
 
