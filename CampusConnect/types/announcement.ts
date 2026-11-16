@@ -10,6 +10,13 @@ export interface Announcement {
   read: boolean;
 }
 
+export interface InteractiveAnnouncement {
+  id: string;
+  title: string;
+  category: string;
+  read: boolean;
+}
+
 export interface StudentProfile {
   firstName: string;
   lastName: string;
