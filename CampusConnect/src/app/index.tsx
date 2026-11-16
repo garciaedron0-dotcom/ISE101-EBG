@@ -6,6 +6,7 @@ import {
   getTotalAnnouncements,
   getUnreadAnnouncements,
 } from '../../services/announcementUtils';
+import { AnnouncementPanel } from '../components/AnnouncementPanel';
 
 export default function HomeScreen() {
   const totalAnnouncements = getTotalAnnouncements(announcements);
@@ -40,6 +41,8 @@ export default function HomeScreen() {
             </Text>
           ))}
         </View>
+
+        <AnnouncementPanel />
       </View>
     </ScrollView>
   );
