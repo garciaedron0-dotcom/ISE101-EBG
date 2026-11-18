@@ -1,38 +1,24 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import {
   AccessibilityInfo,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
+import { router } from 'expo-router';
 
 import type { InteractiveAnnouncement } from '../../types/announcement';
 import { AnnouncementCard } from './AnnouncementCard';
 
-const initialAnnouncements: InteractiveAnnouncement[] = [
-  {
-    id: 'ANN-001',
-    title: 'Enrollment Reminder',
-    category: 'Academic',
-    read: false,
-  },
-  {
-    id: 'ANN-002',
-    title: 'Sports Festival Announcement',
-    category: 'Events',
-    read: false,
-  },
-  {
-    id: 'ANN-003',
-    title: 'Campus Clean-up Drive',
-    category: 'Community',
-    read: true,
-  },
-];
+interface AnnouncementPanelProps {
+  announcements: InteractiveAnnouncement[];
+  onToggleRead: (announcementId: string) => void;
+}
 
-export function AnnouncementPanel() {
-  const [announcements, setAnnouncements] =
-    useState<InteractiveAnnouncement[]>(initialAnnouncements);
+export function AnnouncementPanel({
+  announcements,
+  onToggleRead,
+}: AnnouncementPanelProps) {
   const unreadAnnouncements = announcements.filter(({ read }) => !read);
   const unreadCount = unreadAnnouncements.length;
 
@@ -41,16 +27,6 @@ export function AnnouncementPanel() {
       `Unread announcements: ${unreadCount}`,
     );
   }, [unreadCount]);
-
-  const toggleReadStatus = (announcementId: string) => {
-    setAnnouncements((currentAnnouncements) =>
-      currentAnnouncements.map((announcement) =>
-        announcement.id === announcementId
-          ? { ...announcement, read: !announcement.read }
-          : announcement,
-      ),
-    );
-  };
 
   return (
     <View style={styles.panel}>
@@ -65,7 +41,13 @@ export function AnnouncementPanel() {
             title={announcement.title}
             category={announcement.category}
             read={announcement.read}
-            onMarkRead={() => toggleReadStatus(announcement.id)}
+            onOpenDetails={() =>
+              router.push({
+                pathname: '/announcements/[id]',
+                params: { id: announcement.id },
+              })
+            }
+            onMarkRead={() => onToggleRead(announcement.id)}
           />
         ))}
       </View>

@@ -14,6 +14,7 @@ export interface InteractiveAnnouncement {
   id: string;
   title: string;
   category: string;
+  details: string;
   read: boolean;
 }
 

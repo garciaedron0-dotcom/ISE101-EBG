@@ -4,6 +4,7 @@ export interface AnnouncementCardProps {
   title: string;
   category: string;
   read: boolean;
+  onOpenDetails: () => void;
   onMarkRead: () => void;
 }
 
@@ -11,13 +12,25 @@ export function AnnouncementCard({
   title,
   category,
   read,
+  onOpenDetails,
   onMarkRead,
 }: AnnouncementCardProps) {
   return (
     <View style={styles.card}>
-      <Text style={styles.title}>{title}</Text>
-      <Text style={styles.category}>{category}</Text>
-      <Text style={styles.status}>Status: {read ? 'Read' : 'Unread'}</Text>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={`View ${title} announcement details`}
+        onPress={onOpenDetails}
+        style={({ pressed }) => [
+          styles.details,
+          pressed && styles.detailsPressed,
+        ]}
+      >
+        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.category}>{category}</Text>
+        <Text style={styles.status}>Status: {read ? 'Read' : 'Unread'}</Text>
+        <Text style={styles.detailsLink}>View details</Text>
+      </Pressable>
       <Pressable
         accessibilityRole="button"
         onPress={onMarkRead}
@@ -41,7 +54,13 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     borderWidth: 1,
     padding: 16,
+    gap: 10,
+  },
+  details: {
     gap: 7,
+  },
+  detailsPressed: {
+    opacity: 0.75,
   },
   title: {
     color: '#1F2937',
@@ -55,6 +74,11 @@ const styles = StyleSheet.create({
   status: {
     color: '#475569',
     fontSize: 14,
+  },
+  detailsLink: {
+    color: '#2563EB',
+    fontSize: 14,
+    fontWeight: '600',
   },
   button: {
     alignSelf: 'flex-start',
