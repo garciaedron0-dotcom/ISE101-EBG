@@ -104,6 +104,19 @@ export default function HomeScreen() {
           </Text>
         </Pressable>
 
+        <Pressable
+          accessibilityRole="button"
+          onPress={() => router.push('/announcements/remote')}
+          style={({ pressed }) => [
+            styles.remoteAction,
+            pressed && styles.quickActionPressed,
+          ]}
+        >
+          <Text style={styles.remoteActionText}>
+            View Remote Announcements
+          </Text>
+        </Pressable>
+
         <View style={styles.card}>
           <Text style={styles.cardTitle}>Campus at a glance</Text>
           <View style={styles.divider} />
@@ -232,6 +245,22 @@ const styles = StyleSheet.create({
     color: '#DBEAFE',
     fontSize: 12,
     marginTop: 4,
+  },
+  remoteAction: {
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+    borderColor: '#2563EB',
+    borderRadius: 12,
+    borderWidth: 1,
+    justifyContent: 'center',
+    marginBottom: 18,
+    minHeight: 48,
+    paddingHorizontal: 16,
+  },
+  remoteActionText: {
+    color: '#2563EB',
+    fontSize: 15,
+    fontWeight: '700',
   },
   card: {
     backgroundColor: '#FFFFFF',

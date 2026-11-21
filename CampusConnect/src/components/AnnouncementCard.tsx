@@ -1,4 +1,4 @@
-import { Link } from 'expo-router';
+import { router } from 'expo-router';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 export interface AnnouncementCardProps {
@@ -18,27 +18,25 @@ export function AnnouncementCard({
 }: AnnouncementCardProps) {
   return (
     <View style={styles.card}>
-      <Link
-        href={{
-          pathname: '/announcements/[id]',
-          params: { id },
-        }}
-        asChild
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={`View ${title} announcement details`}
+        onPress={() =>
+          router.push({
+            pathname: '/announcements/[id]',
+            params: { id },
+          })
+        }
+        style={({ pressed }) => [
+          styles.details,
+          pressed && styles.detailsPressed,
+        ]}
       >
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel={`View ${title} announcement details`}
-          style={({ pressed }) => [
-            styles.details,
-            pressed && styles.detailsPressed,
-          ]}
-        >
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.category}>{category}</Text>
-          <Text style={styles.status}>Status: {read ? 'Read' : 'Unread'}</Text>
-          <Text style={styles.detailsLink}>View details</Text>
-        </Pressable>
-      </Link>
+        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.category}>{category}</Text>
+        <Text style={styles.status}>Status: {read ? 'Read' : 'Unread'}</Text>
+        <Text style={styles.detailsLink}>View details</Text>
+      </Pressable>
       <Pressable
         accessibilityRole="button"
         onPress={onMarkRead}

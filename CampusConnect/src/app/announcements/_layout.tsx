@@ -28,6 +28,13 @@ export default function AnnouncementsLayout() {
           headerBackTitle: 'Announcements',
         }}
       />
+      <Stack.Screen
+        name="remote"
+        options={{
+          title: 'Remote Announcements',
+          headerBackTitle: 'Announcements',
+        }}
+      />
     </Stack>
   );
 }

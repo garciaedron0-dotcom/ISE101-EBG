@@ -1,13 +1,8 @@
-export interface SamplePost {
-  userId: number;
-  id: number;
-  title: string;
-  body: string;
-}
+import type { ApiPost } from '../types/apiPost';
 
-const samplePostsUrl = 'https://jsonplaceholder.typicode.com/posts?_limit=5';
+const announcementsUrl = 'https://jsonplaceholder.typicode.com/posts';
 
-const isSamplePost = (value: unknown): value is SamplePost =>
+const isApiPost = (value: unknown): value is ApiPost =>
   typeof value === 'object' &&
   value !== null &&
   'userId' in value &&
@@ -19,22 +14,22 @@ const isSamplePost = (value: unknown): value is SamplePost =>
   'body' in value &&
   typeof value.body === 'string';
 
-export const fetchSamplePosts = async (): Promise<SamplePost[]> => {
-  try {
-    const response = await fetch(samplePostsUrl);
-    if (!response.ok) {
-      throw new Error(`The server responded with HTTP ${response.status}.`);
-    }
+export async function getAnnouncements(): Promise<ApiPost[]> {
+  const response = await fetch(announcementsUrl);
 
-    const data: unknown = await response.json();
-    if (!Array.isArray(data) || !data.every(isSamplePost)) {
-      throw new Error('The server returned posts in an unexpected format.');
-    }
-
-    return data;
-  } catch (error) {
-    const reason =
-      error instanceof Error ? error.message : 'An unknown error occurred.';
-    throw new Error(`Could not load sample posts. ${reason}`);
+  if (!response.ok) {
+    throw new Error(`Request failed with HTTP status ${response.status}.`);
   }
-};
+
+  const data: unknown = await response.json();
+
+  if (!Array.isArray(data)) {
+    throw new Error('The server returned an unexpected response format.');
+  }
+
+  if (!data.every(isApiPost)) {
+    throw new Error('The server returned invalid announcement data.');
+  }
+
+  return data;
+}
