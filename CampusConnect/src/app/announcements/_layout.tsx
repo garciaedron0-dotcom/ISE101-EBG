@@ -21,6 +21,13 @@ export default function AnnouncementsLayout() {
           headerBackTitle: 'Announcements',
         }}
       />
+      <Stack.Screen
+        name="submit"
+        options={{
+          title: 'Submit Announcement',
+          headerBackTitle: 'Announcements',
+        }}
+      />
     </Stack>
   );
 }

@@ -90,6 +90,20 @@ export default function HomeScreen() {
           </Pressable>
         </View>
 
+        <Pressable
+          accessibilityRole="button"
+          onPress={() => router.push('/announcements/submit')}
+          style={({ pressed }) => [
+            styles.submitAction,
+            pressed && styles.quickActionPressed,
+          ]}
+        >
+          <Text style={styles.submitActionTitle}>Submit Announcement</Text>
+          <Text style={styles.submitActionDescription}>
+            Create a campus announcement draft
+          </Text>
+        </Pressable>
+
         <View style={styles.card}>
           <Text style={styles.cardTitle}>Campus at a glance</Text>
           <View style={styles.divider} />
@@ -201,6 +215,23 @@ const styles = StyleSheet.create({
     fontSize: 12,
     lineHeight: 17,
     marginTop: 5,
+  },
+  submitAction: {
+    backgroundColor: '#2563EB',
+    borderRadius: 12,
+    marginBottom: 18,
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+  },
+  submitActionTitle: {
+    color: '#FFFFFF',
+    fontSize: 15,
+    fontWeight: '700',
+  },
+  submitActionDescription: {
+    color: '#DBEAFE',
+    fontSize: 12,
+    marginTop: 4,
   },
   card: {
     backgroundColor: '#FFFFFF',
