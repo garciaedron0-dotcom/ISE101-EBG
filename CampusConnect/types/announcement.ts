@@ -8,6 +8,10 @@ export interface Announcement {
   date: string;
   isPinned: boolean;
   read: boolean;
+  announcementId?: string;
+  body?: string;
+  publishedAt?: string;
+  authorId?: string;
 }
 
 export interface InteractiveAnnouncement {

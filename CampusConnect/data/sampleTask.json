@@ -1,0 +1,9 @@
+{
+  "taskId": "task-001",
+  "ownerId": "user-001",
+  "title": "Prepare Mobile Programming Activity",
+  "description": "Complete the Week 9 database modeling activity.",
+  "isCompleted": false,
+  "createdAt": "2026-11-21T08:00:00.000Z",
+  "updatedAt": "2026-11-21T08:00:00.000Z"
+}
