@@ -85,10 +85,8 @@ export default function HomeScreen() {
               pressed && styles.quickActionPressed,
             ]}
           >
-            <Text style={styles.quickActionTitle}>More</Text>
-            <Text style={styles.quickActionDescription}>
-              Open Student Profile
-            </Text>
+            <Text style={styles.quickActionTitle}>Open Student Profile</Text>
+            <Text style={styles.quickActionDescription}>View your profile</Text>
           </Pressable>
         </View>
 

@@ -4,7 +4,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { campusAnnouncements } from '../../../services/campusAnnouncements';
 
 export default function AnnouncementDetailsScreen() {
-  const { id } = useLocalSearchParams<{ id?: string | string[] }>();
+  const { id } = useLocalSearchParams<{ id: string }>();
   const routeId = Array.isArray(id) ? id[0] : id;
   const normalizedId =
     typeof routeId === 'string' ? routeId.trim() : '';
@@ -16,7 +16,7 @@ export default function AnnouncementDetailsScreen() {
     if (router.canGoBack()) {
       router.back();
     } else {
-      router.replace('/');
+      router.replace('/announcements/index');
     }
   };
 

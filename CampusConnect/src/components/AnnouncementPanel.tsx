@@ -1,26 +1,64 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import type { ReactElement } from 'react';
+import { useRouter } from 'expo-router';
 import {
   AccessibilityInfo,
+  FlatList,
+  type ListRenderItem,
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
-import { router } from 'expo-router';
 
 import type { InteractiveAnnouncement } from '../../types/announcement';
+import { campusAnnouncements } from '../../services/campusAnnouncements';
+import { SectionHeading } from './SectionHeading';
 import { AnnouncementCard } from './AnnouncementCard';
 
-interface AnnouncementPanelProps {
-  announcements: InteractiveAnnouncement[];
-  onToggleRead: (announcementId: string) => void;
+export interface AnnouncementPanelProps {
+  announcements?: InteractiveAnnouncement[];
+  onToggleRead?: (announcementId: string) => void;
+  renderPageHeader?: (onViewAll: () => void) => ReactElement;
 }
 
 export function AnnouncementPanel({
   announcements,
   onToggleRead,
+  renderPageHeader,
 }: AnnouncementPanelProps) {
-  const unreadAnnouncements = announcements.filter(({ read }) => !read);
-  const unreadCount = unreadAnnouncements.length;
+  const [internalAnnouncements, setInternalAnnouncements] =
+    useState<InteractiveAnnouncement[]>(() => [...campusAnnouncements]);
+  const router = useRouter();
+  const displayedAnnouncements = announcements ?? internalAnnouncements;
+  const unreadCount = displayedAnnouncements.filter(({ read }) => !read).length;
+
+  const toggleReadStatus = (announcementId: string) => {
+    if (onToggleRead) {
+      onToggleRead(announcementId);
+      return;
+    }
+
+    setInternalAnnouncements((currentAnnouncements) =>
+      currentAnnouncements.map((announcement) =>
+        announcement.id === announcementId
+          ? { ...announcement, read: !announcement.read }
+          : announcement,
+      ),
+    );
+  };
+
+  const renderAnnouncement: ListRenderItem<InteractiveAnnouncement> = ({
+    item,
+  }) => (
+    <View style={styles.itemContainer}>
+      <AnnouncementCard
+        id={item.id}
+        title={item.title}
+        category={item.category}
+        read={item.read}
+        onMarkRead={() => toggleReadStatus(item.id)}
+      />
+    </View>
+  );
 
   useEffect(() => {
     AccessibilityInfo.announceForAccessibility(
@@ -28,53 +66,60 @@ export function AnnouncementPanel({
     );
   }, [unreadCount]);
 
+  const handleViewAll = () => router.push('/announcements/index');
+
   return (
-    <View style={styles.panel}>
-      <Text style={styles.heading}>Campus Announcements</Text>
-      <Text style={styles.unreadCount}>
-        Unread Announcements: {unreadCount}
-      </Text>
-      <View style={styles.cardList}>
-        {announcements.map((announcement) => (
-          <AnnouncementCard
-            key={announcement.id}
-            title={announcement.title}
-            category={announcement.category}
-            read={announcement.read}
-            onOpenDetails={() =>
-              router.push({
-                pathname: '/announcements/[id]',
-                params: { id: announcement.id },
-              })
-            }
-            onMarkRead={() => onToggleRead(announcement.id)}
-          />
-        ))}
-      </View>
-    </View>
+    <FlatList
+      style={styles.list}
+      contentContainerStyle={styles.listContent}
+      data={displayedAnnouncements}
+      keyExtractor={(item) => item.id}
+      renderItem={renderAnnouncement}
+      ItemSeparatorComponent={CardSeparator}
+      ListHeaderComponent={
+        <View style={styles.listHeader}>
+          {renderPageHeader?.(handleViewAll)}
+          <View style={styles.announcementHeading}>
+            <SectionHeading
+              title="Campus Announcements"
+              subtitle={`Unread Announcements: ${unreadCount}`}
+            />
+          </View>
+        </View>
+      }
+      extraData={displayedAnnouncements}
+    />
   );
 }
 
+function CardSeparator() {
+  return <View style={styles.separator} />;
+}
+
 const styles = StyleSheet.create({
-  panel: {
+  list: {
+    flex: 1,
     backgroundColor: '#F4F7FB',
-    borderRadius: 12,
-    marginTop: 20,
-    padding: 16,
   },
-  heading: {
-    color: '#1F2937',
-    fontSize: 20,
-    fontWeight: '700',
+  listContent: {
+    alignItems: 'center',
+    width: '100%',
+    paddingHorizontal: 16,
+    paddingBottom: 110,
   },
-  unreadCount: {
-    color: '#475569',
-    fontSize: 15,
-    fontWeight: '600',
-    marginTop: 8,
+  listHeader: {
+    width: '100%',
+    maxWidth: 760,
   },
-  cardList: {
-    gap: 12,
-    marginTop: 16,
+  announcementHeading: {
+    marginTop: 24,
+    marginBottom: 16,
+  },
+  separator: {
+    height: 12,
+  },
+  itemContainer: {
+    width: '100%',
+    maxWidth: 760,
   },
 });

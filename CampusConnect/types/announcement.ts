@@ -14,8 +14,10 @@ export interface InteractiveAnnouncement {
   id: string;
   title: string;
   category: string;
-  details: string;
+  details?: string;
   read: boolean;
+  date?: string;
+  description?: string;
 }
 
 export interface StudentProfile {

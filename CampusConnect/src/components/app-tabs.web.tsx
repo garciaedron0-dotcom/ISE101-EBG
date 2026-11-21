@@ -31,7 +31,12 @@ export default function AppTabs() {
   );
 }
 
-export function TabButton({ children, isFocused, ...props }: TabTriggerSlotProps) {
+export function TabButton({
+  children,
+  isFocused,
+  ref: _ref,
+  ...props
+}: TabTriggerSlotProps) {
   return (
     <Pressable {...props} style={({ pressed }) => pressed && styles.pressed}>
       <ThemedView
@@ -73,7 +78,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.five,
     borderRadius: Spacing.five,
     flexDirection: 'row',
+    flexWrap: 'wrap',
     alignItems: 'center',
+    justifyContent: 'center',
     flexGrow: 1,
     gap: Spacing.two,
     maxWidth: MaxContentWidth,

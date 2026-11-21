@@ -6,7 +6,7 @@ export default function ProfileScreen() {
     if (router.canGoBack()) {
       router.back();
     } else {
-      router.replace('/');
+      router.replace('/(tabs)');
     }
   };
 
